@@ -1,0 +1,137 @@
+<html>
+<head>
+	<title>API Example</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script type="text/javascript">
+
+		//jose
+		function matchKeyword( text ) {	
+			var list1 = ['blue', 'pen','anas','three','zero','one','room','3104'];
+			text = text.toLowerCase();
+			var keyindex = -1;
+			for (var i = 0; i < list1.length; i++){
+    	 		if (text.indexOf(list1[i]) > -1){
+    	 			keyindex++;
+    				//alert( "It's in E1-3081..." );
+    				var audio = new Audio('video/greetings.mp3');
+					audio.play();
+
+					setTimeout(function(){$("#video").get(0).style.display = 'block';}, 2000);
+					setTimeout(function(){$("#video").get(0).src= 'video/m2.jpg';}, 2500);
+    				 
+    			}
+			} 
+		}
+
+		var accessToken = "1c1fd6b0b5574b78878ce47f909125d4";
+		var subscriptionKey = "8a6c9524-7dc8-4630-a848-b40a88f4cede";
+		var baseUrl = "https://api.api.ai/v1/";
+
+		$(document).ready(function() {
+			$("#video").get(0).style.display = 'none';
+			$("#input").keypress(function(event) {
+				if (event.which == 13) {
+					event.preventDefault();
+					send();
+				}
+			});
+			$("#rec").click(function(event) {
+				switchRecognition();
+			});
+		});
+
+		var recognition;
+
+		function startRecognition() {
+			recognition = new webkitSpeechRecognition();
+			recognition.onstart = function(event) {
+				updateRec();
+			};
+			recognition.onresult = function(event) {
+				var text = "";
+			    for (var i = event.resultIndex; i < event.results.length; ++i) {
+			    	text += event.results[i][0].transcript;
+			    }
+			    //setInput(text);
+			    setInput("It is in room 3104. Directions...");
+
+				stopRecognition();
+			};
+			recognition.onend = function() {
+				stopRecognition();
+			};
+			recognition.lang = "en-US";
+			recognition.start();
+		}
+	
+		function stopRecognition() {
+			if (recognition) {
+				recognition.stop();
+				recognition = null;
+			}
+			updateRec();
+		}
+
+		function switchRecognition() {
+			if (recognition) {
+				stopRecognition();
+			} else {
+				startRecognition();
+			}
+		}
+
+		function setInput(text) {
+			$("#input").val(text);
+			//send(); instead of using api.ai we use our own
+			matchKeyword(text);
+		}
+
+		function updateRec() {
+			$("#rec").text(recognition ? "Stop" : "Speak");
+		}
+
+		function send() {
+			var text = $("#input").val();
+			$.ajax({
+				type: "POST",
+				url: baseUrl + "query/",
+				contentType: "application/json; charset=utf-8",
+				dataType: "json",
+				headers: {
+					"Authorization": "Bearer " + accessToken,
+					"ocp-apim-subscription-key": subscriptionKey
+				},
+				data: JSON.stringify({ q: text, lang: "en" }),
+
+				success: function(data) {
+					setResponse(JSON.stringify(data, undefined, 2));
+				},
+				error: function() {
+					setResponse("Internal Server Error");
+				}
+			});
+			setResponse("Loading...");
+		}
+
+		function setResponse(val) {
+			$("#response").text(val);
+		}
+
+	</script>
+	<style type="text/css">
+		body { width: 500px; margin: 0 auto; text-align: center; margin-top: 20px; font-size: 15px; font-family: arial }
+		div {  position: absolute; }
+		input { width: 250px; font-size: 15px; border-style: none;}
+		button { width: 250px; height: 130px; font-size: 15px; font-family: arial }
+		textarea { width: 100%; }
+	</style>
+</head>
+<body>
+		<p><button id="rec"><img src="face.png" width=100px /><br>Push to Ask</button>
+		<input id="input" type="text"> 
+		<!--br>Response<br> <textarea id="response" cols="40" rows="20"></textarea -->
+		<br>
+		<img id="video" src="video/m1.jpg" width=500px />
+</body>
+</html>
