@@ -1,0 +1,17 @@
+theme: minima
+github: [metadata]
+title: Sara Beery
+encoding: UTF-8
+permalink: /:title/
+markdown: kramdown
+include: ['_pages']
+# collections:
+#   post_drafts:
+#     output: true
+#gems:
+#  - jekyll-feed
+exclude:
+  - README.md
+header_pages:
+  - _pages/pubs.md
+  - _pages/news.md

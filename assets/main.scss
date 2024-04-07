@@ -1,0 +1,49 @@
+---
+# Only the main Sass file needs front matter (the dashes are enough)
+---
+
+@import "{{ site.theme }}";
+
+body {
+    font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+}
+
+footer svg {
+    fill: rgb(84, 213, 245);
+    width: 18px;
+    margin-right: 10px;
+}
+
+a, a:visited, a:active {
+    // color: #72d218;
+    color: #666666;
+    text-decoration: underline;
+}
+
+a:hover {
+    color: rgb(84, 213, 245);
+    text-decoration: underline;
+}
+
+
+.site-header {
+    border-top: 5px solid rgb(84, 213, 245);
+    border-bottom: 0px;
+    padding-top: 10px;
+}
+
+.site-title {
+    font-size: 36px;
+    font-weight: bold;
+    font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: none;
+    }
+}
+
+.site-footer {
+    border-top: 0px;
+}
