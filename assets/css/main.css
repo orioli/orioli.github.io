@@ -7,6 +7,16 @@
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 */
 
+.video-container {
+    display: flex; /* Use flexbox for easy alignment */
+    justify-content: center; /* Center children horizontally in the flex container */
+    margin-bottom: 20px; /* Space between the video and whatever is below */
+}
+
+.video-container video {
+    /* Optional: Apply any specific styles to the video element itself */
+}
+
 html, body, div, span, applet, object,
 iframe, h1, h2, h3, h4, h5, h6, p, blockquote,
 pre, a, abbr, acronym, address, big, cite,
